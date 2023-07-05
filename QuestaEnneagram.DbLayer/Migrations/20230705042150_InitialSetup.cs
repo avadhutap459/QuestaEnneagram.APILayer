@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace QuestaEnneagram.DbLayer.Migrations
 {
-    public partial class InitialDb : Migration
+    public partial class InitialSetup : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -21,6 +21,43 @@ namespace QuestaEnneagram.DbLayer.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_mstAge", x => x.AgeId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "mstAssessmentSet",
+                columns: table => new
+                {
+                    AssessmentId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AssessmentName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    LastModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TotalQuestion = table.Column<int>(type: "int", nullable: true),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_mstAssessmentSet", x => x.AssessmentId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "mstCompany",
+                columns: table => new
+                {
+                    CompanyId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CompanyName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    LastModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_mstCompany", x => x.CompanyId);
                 });
 
             migrationBuilder.CreateTable(
@@ -136,6 +173,33 @@ namespace QuestaEnneagram.DbLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "mstHumanResource",
+                columns: table => new
+                {
+                    HrId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    HrName = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: false),
+                    HrMobileNo = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: true),
+                    HrEmail = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    CompanyId = table.Column<int>(type: "int", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    LastModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_mstHumanResource", x => x.HrId);
+                    table.ForeignKey(
+                        name: "FK_mstHumanResource_mstCompany_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "mstCompany",
+                        principalColumn: "CompanyId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "mstState",
                 columns: table => new
                 {
@@ -154,6 +218,36 @@ namespace QuestaEnneagram.DbLayer.Migrations
                         principalTable: "mstCountry",
                         principalColumn: "CountryId",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TxnHrMapToCompany",
+                columns: table => new
+                {
+                    CMapHId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CompanyId = table.Column<int>(type: "int", nullable: false),
+                    HrId = table.Column<int>(type: "int", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    LastModifiedBy = table.Column<string>(type: "nvarchar(200)", maxLength: 200, nullable: true),
+                    LastModifiedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TxnHrMapToCompany", x => x.CMapHId);
+                    table.ForeignKey(
+                        name: "FK_TxnHrMapToCompany_mstCompany_CompanyId",
+                        column: x => x.CompanyId,
+                        principalTable: "mstCompany",
+                        principalColumn: "CompanyId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_TxnHrMapToCompany_mstHumanResource_HrId",
+                        column: x => x.HrId,
+                        principalTable: "mstHumanResource",
+                        principalColumn: "HrId");
                 });
 
             migrationBuilder.CreateTable(
@@ -186,7 +280,10 @@ namespace QuestaEnneagram.DbLayer.Migrations
                     IsLogin = table.Column<bool>(type: "bit", nullable: true),
                     MainType = table.Column<int>(type: "int", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    LastModified = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    AssessmentId = table.Column<int>(type: "int", nullable: false),
+                    CMapHId = table.Column<int>(type: "int", nullable: false),
+                    HrMapToCompaniesCMapHId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -196,6 +293,12 @@ namespace QuestaEnneagram.DbLayer.Migrations
                         column: x => x.AgeId,
                         principalTable: "mstAge",
                         principalColumn: "AgeId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_txnCandidate_mstAssessmentSet_AssessmentId",
+                        column: x => x.AssessmentId,
+                        principalTable: "mstAssessmentSet",
+                        principalColumn: "AssessmentId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_txnCandidate_mstCountry_CountryId",
@@ -244,6 +347,12 @@ namespace QuestaEnneagram.DbLayer.Migrations
                         column: x => x.StateId,
                         principalTable: "mstState",
                         principalColumn: "StateId");
+                    table.ForeignKey(
+                        name: "FK_txnCandidate_TxnHrMapToCompany_HrMapToCompaniesCMapHId",
+                        column: x => x.HrMapToCompaniesCMapHId,
+                        principalTable: "TxnHrMapToCompany",
+                        principalColumn: "CMapHId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -273,6 +382,11 @@ namespace QuestaEnneagram.DbLayer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_mstHumanResource_CompanyId",
+                table: "mstHumanResource",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_mstState_CountryId",
                 table: "mstState",
                 column: "CountryId");
@@ -281,6 +395,11 @@ namespace QuestaEnneagram.DbLayer.Migrations
                 name: "IX_txnCandidate_AgeId",
                 table: "txnCandidate",
                 column: "AgeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_txnCandidate_AssessmentId",
+                table: "txnCandidate",
+                column: "AssessmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_txnCandidate_CountryId",
@@ -303,6 +422,11 @@ namespace QuestaEnneagram.DbLayer.Migrations
                 column: "GenderId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_txnCandidate_HrMapToCompaniesCMapHId",
+                table: "txnCandidate",
+                column: "HrMapToCompaniesCMapHId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_txnCandidate_MaritalStatusId",
                 table: "txnCandidate",
                 column: "MaritalStatusId");
@@ -321,6 +445,16 @@ namespace QuestaEnneagram.DbLayer.Migrations
                 name: "IX_txnCandidate_StateId",
                 table: "txnCandidate",
                 column: "StateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TxnHrMapToCompany_CompanyId",
+                table: "TxnHrMapToCompany",
+                column: "CompanyId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_TxnHrMapToCompany_HrId",
+                table: "TxnHrMapToCompany",
+                column: "HrId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_txnIndustry_CandidateId",
@@ -348,6 +482,9 @@ namespace QuestaEnneagram.DbLayer.Migrations
                 name: "mstAge");
 
             migrationBuilder.DropTable(
+                name: "mstAssessmentSet");
+
+            migrationBuilder.DropTable(
                 name: "mstEmployeeStatus");
 
             migrationBuilder.DropTable(
@@ -369,7 +506,16 @@ namespace QuestaEnneagram.DbLayer.Migrations
                 name: "mstState");
 
             migrationBuilder.DropTable(
+                name: "TxnHrMapToCompany");
+
+            migrationBuilder.DropTable(
                 name: "mstCountry");
+
+            migrationBuilder.DropTable(
+                name: "mstHumanResource");
+
+            migrationBuilder.DropTable(
+                name: "mstCompany");
         }
     }
 }

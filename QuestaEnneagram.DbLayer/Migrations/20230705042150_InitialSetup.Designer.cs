@@ -12,8 +12,8 @@ using QuestaEnneagram.DbLayer;
 namespace QuestaEnneagram.DbLayer.Migrations
 {
     [DbContext(typeof(QuestaDbContext))]
-    [Migration("20230705034031_InitialDb")]
-    partial class InitialDb
+    [Migration("20230705042150_InitialSetup")]
+    partial class InitialSetup
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -44,6 +44,44 @@ namespace QuestaEnneagram.DbLayer.Migrations
                     b.ToTable("mstAge");
                 });
 
+            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbAssessmentModel", b =>
+                {
+                    b.Property<int>("AssessmentId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("AssessmentId"), 1L, 1);
+
+                    b.Property<string>("AssessmentName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int?>("TotalQuestion")
+                        .HasColumnType("int");
+
+                    b.HasKey("AssessmentId");
+
+                    b.ToTable("mstAssessmentSet");
+                });
+
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbCandidateModel", b =>
                 {
                     b.Property<int>("CandidateId")
@@ -55,9 +93,15 @@ namespace QuestaEnneagram.DbLayer.Migrations
                     b.Property<int>("AgeId")
                         .HasColumnType("int");
 
+                    b.Property<int>("AssessmentId")
+                        .HasColumnType("int");
+
                     b.Property<string>("BrowserName")
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("CMapHId")
+                        .HasColumnType("int");
 
                     b.Property<int>("CountryId")
                         .HasColumnType("int");
@@ -83,6 +127,9 @@ namespace QuestaEnneagram.DbLayer.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.Property<int>("GenderId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HrMapToCompaniesCMapHId")
                         .HasColumnType("int");
 
                     b.Property<bool?>("IsActive")
@@ -137,6 +184,8 @@ namespace QuestaEnneagram.DbLayer.Migrations
 
                     b.HasIndex("AgeId");
 
+                    b.HasIndex("AssessmentId");
+
                     b.HasIndex("CountryId");
 
                     b.HasIndex("EmployeeStatusId");
@@ -144,6 +193,8 @@ namespace QuestaEnneagram.DbLayer.Migrations
                     b.HasIndex("ExperienceId");
 
                     b.HasIndex("GenderId");
+
+                    b.HasIndex("HrMapToCompaniesCMapHId");
 
                     b.HasIndex("MaritalStatusId");
 
@@ -154,6 +205,41 @@ namespace QuestaEnneagram.DbLayer.Migrations
                     b.HasIndex("StateId");
 
                     b.ToTable("txnCandidate");
+                });
+
+            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbCompanyModel", b =>
+                {
+                    b.Property<int>("CompanyId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CompanyId"), 1L, 1);
+
+                    b.Property<string>("CompanyName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("CompanyId");
+
+                    b.ToTable("mstCompany");
                 });
 
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbCountryModel", b =>
@@ -234,6 +320,94 @@ namespace QuestaEnneagram.DbLayer.Migrations
                     b.HasKey("GenderId");
 
                     b.ToTable("mstGender");
+                });
+
+            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbHrMapToCompanyModel", b =>
+                {
+                    b.Property<int>("CMapHId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CMapHId"), 1L, 1);
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<int>("HrId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("CMapHId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.HasIndex("HrId");
+
+                    b.ToTable("TxnHrMapToCompany");
+                });
+
+            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbHumanResourceModel", b =>
+                {
+                    b.Property<int>("HrId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HrId"), 1L, 1);
+
+                    b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("HrEmail")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<string>("HrMobileNo")
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<string>("HrName")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("LastModifiedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.HasKey("HrId");
+
+                    b.HasIndex("CompanyId");
+
+                    b.ToTable("mstHumanResource");
                 });
 
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbIndustryModel", b =>
@@ -372,6 +546,12 @@ namespace QuestaEnneagram.DbLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbAssessmentModel", "Assessment")
+                        .WithMany("Candidates")
+                        .HasForeignKey("AssessmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbCountryModel", "Country")
                         .WithMany("Candidates")
                         .HasForeignKey("CountryId")
@@ -393,6 +573,12 @@ namespace QuestaEnneagram.DbLayer.Migrations
                     b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbGenderModel", "Gender")
                         .WithMany("Candidates")
                         .HasForeignKey("GenderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbHrMapToCompanyModel", "HrMapToCompanies")
+                        .WithMany("Candidates")
+                        .HasForeignKey("HrMapToCompaniesCMapHId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -421,6 +607,8 @@ namespace QuestaEnneagram.DbLayer.Migrations
 
                     b.Navigation("Age");
 
+                    b.Navigation("Assessment");
+
                     b.Navigation("Country");
 
                     b.Navigation("EmployeeStatus");
@@ -429,6 +617,8 @@ namespace QuestaEnneagram.DbLayer.Migrations
 
                     b.Navigation("Gender");
 
+                    b.Navigation("HrMapToCompanies");
+
                     b.Navigation("MaritalStatus");
 
                     b.Navigation("Professional");
@@ -436,6 +626,35 @@ namespace QuestaEnneagram.DbLayer.Migrations
                     b.Navigation("Qualification");
 
                     b.Navigation("State");
+                });
+
+            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbHrMapToCompanyModel", b =>
+                {
+                    b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbCompanyModel", "Company")
+                        .WithMany("HrMapToCompanies")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbHumanResourceModel", "HumanResource")
+                        .WithMany("HrMapToCompanies")
+                        .HasForeignKey("HrId")
+                        .IsRequired();
+
+                    b.Navigation("Company");
+
+                    b.Navigation("HumanResource");
+                });
+
+            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbHumanResourceModel", b =>
+                {
+                    b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbCompanyModel", "Company")
+                        .WithMany("HumanResources")
+                        .HasForeignKey("CompanyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Company");
                 });
 
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbStateModel", b =>
@@ -473,9 +692,21 @@ namespace QuestaEnneagram.DbLayer.Migrations
                     b.Navigation("Candidates");
                 });
 
+            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbAssessmentModel", b =>
+                {
+                    b.Navigation("Candidates");
+                });
+
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbCandidateModel", b =>
                 {
                     b.Navigation("Industries");
+                });
+
+            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbCompanyModel", b =>
+                {
+                    b.Navigation("HrMapToCompanies");
+
+                    b.Navigation("HumanResources");
                 });
 
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbCountryModel", b =>
@@ -498,6 +729,16 @@ namespace QuestaEnneagram.DbLayer.Migrations
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbGenderModel", b =>
                 {
                     b.Navigation("Candidates");
+                });
+
+            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbHrMapToCompanyModel", b =>
+                {
+                    b.Navigation("Candidates");
+                });
+
+            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbHumanResourceModel", b =>
+                {
+                    b.Navigation("HrMapToCompanies");
                 });
 
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbIndustryModel", b =>

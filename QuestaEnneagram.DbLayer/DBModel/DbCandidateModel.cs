@@ -76,5 +76,13 @@ namespace QuestaEnneagram.DbLayer.DBModel
         public DateTime LastModified { get; set; }
         public ICollection<DbTxnIndustryModel> Industries { get; set; }
 
+        //Foreign key of Assessement
+        public int AssessmentId { get; set; }
+        public DbAssessmentModel Assessment { get; set; }
+
+        //Foreign key of TxnHrMapToCompany
+        public int CMapHId { get; set; }
+        public DbHrMapToCompanyModel HrMapToCompanies { get; set; }
+
     }
 }
