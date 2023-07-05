@@ -1,4 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using QuestaEnneagram.DbLayer.DBModel;
 using QuestaEnneagram.DbLayer.Model;
 using System;
 using System.Collections.Generic;
@@ -10,15 +12,27 @@ namespace QuestaEnneagram.DbLayer
 {
     public class QuestaDbContext : DbContext
     {
-        public QuestaDbContext()
+        public QuestaDbContext(DbContextOptions<QuestaDbContext> options) : base(options) { }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<DbCandidateModel>().HasOne(x=>x.State).WithMany(x=>x.Candidates).HasForeignKey(x=>x.StateId).OnDelete(DeleteBehavior.ClientSetNull);
 
+
+            base.OnModelCreating(modelBuilder);
         }
-        protected override void OnConfiguring(DbContextOptionsBuilder builder)
-        {
-            builder.UseSqlServer("Data Source=DESKTOP-6I56UFD;Initial Catalog=DbInital;Integrated Security=True;");
-        }
-        public DbSet<Department> departments { get; set; }
-        public DbSet<Employee> employees { get; set; }
+     //   public DbSet<Department> departments { get; set; }
+     //  public DbSet<Employee> employees { get; set; }
+        public DbSet<DbAgeModel> Ages { get; set; }
+        public DbSet<DbCountryModel> Countries { get; set; }
+        public DbSet<DbGenderModel> Genders { get; set; }
+        public DbSet<DbStateModel> States { get; set; }
+        public DbSet<DbEmployeeStatusModel> EmployeeStatus { get; set; }
+        public DbSet<DbExperenceModel> Experences { get; set; }
+        public DbSet<DbMaritalStatusModel> MaritalStatus { get; set; }
+        public DbSet<DbProfessionalModel> Professionals { get; set; }
+        public DbSet<DbQualificationModel> Qualifications { get; set; }
+        public DbSet<DbIndustryModel> Industries { get; set; }
+        public DbSet<DbTxnIndustryModel> CandidateWiseIndustries { get; set; }
+        public DbSet<DbCandidateModel> Candidates { get; set; }
     }
 }

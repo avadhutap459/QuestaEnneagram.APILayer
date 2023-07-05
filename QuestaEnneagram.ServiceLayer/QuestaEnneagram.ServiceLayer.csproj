@@ -10,8 +10,4 @@
     <ProjectReference Include="..\QuestaEnneagram.DbLayer\QuestaEnneagram.DbLayer.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Service\" />
-  </ItemGroup>
-
 </Project>

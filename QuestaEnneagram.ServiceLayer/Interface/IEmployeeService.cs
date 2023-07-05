@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace QuestaEnneagram.DbLayer.Model
+namespace QuestaEnneagram.ServiceLayer.Interface
 {
-    internal class ClsCandidate
+    public interface IEmployeeService
     {
     }
 }
