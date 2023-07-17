@@ -24,6 +24,7 @@ namespace QuestaEnneagram.DbLayer.DBModel
         public bool IsActive { get; set; }
 
         public ICollection<DbCandidateModel> Candidates { get; set; }
+        public ICollection<DbAttachSetToModuleModel> AttachSetToModules { get; set; }
 
     }
 }

@@ -84,5 +84,7 @@ namespace QuestaEnneagram.DbLayer.DBModel
         public int CMapHId { get; set; }
         public DbHrMapToCompanyModel HrMapToCompanies { get; set; }
 
+        public ICollection<DbCandidateTestDetailModel> CandidateTestDetails { get; set; }
+
     }
 }
