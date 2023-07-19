@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuestaEnneagram.DbLayer;
 
@@ -11,9 +12,10 @@ using QuestaEnneagram.DbLayer;
 namespace QuestaEnneagram.DbLayer.Migrations
 {
     [DbContext(typeof(QuestaDbContext))]
-    partial class QuestaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230717174714_adding age master data in table")]
+    partial class addingagemasterdataintable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -792,9 +794,6 @@ namespace QuestaEnneagram.DbLayer.Migrations
                     b.Property<string>("ResponseText")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SubTypeId")
-                        .HasColumnType("int");
-
                     b.Property<int>("weight")
                         .HasColumnType("int");
 
@@ -802,43 +801,7 @@ namespace QuestaEnneagram.DbLayer.Migrations
 
                     b.HasIndex("QuestionId");
 
-                    b.HasIndex("SubTypeId");
-
                     b.ToTable("mstQuestionResponse");
-                });
-
-            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbQuestionSubTypeModel", b =>
-                {
-                    b.Property<int>("SubTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SubTypeId"), 1L, 1);
-
-                    b.Property<DateTime?>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool?>("IsActive")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModifiedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("LastModifiedBy")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<string>("SubTypeName")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("SubTypeId");
-
-                    b.ToTable("mstQuestionSubType");
                 });
 
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbQuestionTypeModel", b =>
@@ -1204,13 +1167,7 @@ namespace QuestaEnneagram.DbLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbQuestionSubTypeModel", "dbQuestionSubTypeModel")
-                        .WithMany("QuestionResponseModel")
-                        .HasForeignKey("SubTypeId");
-
                     b.Navigation("QuestionModel");
-
-                    b.Navigation("dbQuestionSubTypeModel");
                 });
 
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbStateModel", b =>
@@ -1419,11 +1376,6 @@ namespace QuestaEnneagram.DbLayer.Migrations
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbQuestionResponseModel", b =>
                 {
                     b.Navigation("transactionQuestionResponses");
-                });
-
-            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbQuestionSubTypeModel", b =>
-                {
-                    b.Navigation("QuestionResponseModel");
                 });
 
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbQuestionTypeModel", b =>

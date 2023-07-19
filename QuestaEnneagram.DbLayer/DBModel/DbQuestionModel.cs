@@ -25,6 +25,32 @@ namespace QuestaEnneagram.DbLayer.DBModel
 
     }
 
+    [Table("mstQuestionSubType")]
+    public class DbQuestionSubTypeModel
+    {
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int SubTypeId { get; set; }
+
+        [StringLength(100)]
+        public string? SubTypeName { get; set; }
+        public bool? IsActive { get; set; }
+        public DateTime? CreatedAt { get; set; }
+
+        [StringLength(100)]
+        public string? CreatedBy { get; set; }
+        public DateTime? LastModifiedAt { get; set; }
+
+        [StringLength(100)]
+        public string? LastModifiedBy { get; set; }
+
+        public ICollection<DbQuestionResponseModel> QuestionResponseModel { get; set; }
+
+    }
+
+
+
+
     [Table("mstQuestionReponseType")]
     public class DbQuestionReponseType
     {
@@ -94,6 +120,9 @@ namespace QuestaEnneagram.DbLayer.DBModel
 
         [StringLength(100)]
         public string? LastModifiedBy { get; set; }
+
+        public int? SubTypeId { get; set; }
+        public DbQuestionSubTypeModel dbQuestionSubTypeModel { get; set; }
         public ICollection<DbTransactionQuestionResponseModel> transactionQuestionResponses { get; set; }
 
     }

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuestaEnneagram.DbLayer;
 
@@ -11,9 +12,10 @@ using QuestaEnneagram.DbLayer;
 namespace QuestaEnneagram.DbLayer.Migrations
 {
     [DbContext(typeof(QuestaDbContext))]
-    partial class QuestaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230718125229_Added sub type table")]
+    partial class Addedsubtypetable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -792,17 +794,12 @@ namespace QuestaEnneagram.DbLayer.Migrations
                     b.Property<string>("ResponseText")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("SubTypeId")
-                        .HasColumnType("int");
-
                     b.Property<int>("weight")
                         .HasColumnType("int");
 
                     b.HasKey("ResponseId");
 
                     b.HasIndex("QuestionId");
-
-                    b.HasIndex("SubTypeId");
 
                     b.ToTable("mstQuestionResponse");
                 });
@@ -1204,13 +1201,7 @@ namespace QuestaEnneagram.DbLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbQuestionSubTypeModel", "dbQuestionSubTypeModel")
-                        .WithMany("QuestionResponseModel")
-                        .HasForeignKey("SubTypeId");
-
                     b.Navigation("QuestionModel");
-
-                    b.Navigation("dbQuestionSubTypeModel");
                 });
 
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbStateModel", b =>
@@ -1419,11 +1410,6 @@ namespace QuestaEnneagram.DbLayer.Migrations
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbQuestionResponseModel", b =>
                 {
                     b.Navigation("transactionQuestionResponses");
-                });
-
-            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbQuestionSubTypeModel", b =>
-                {
-                    b.Navigation("QuestionResponseModel");
                 });
 
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbQuestionTypeModel", b =>

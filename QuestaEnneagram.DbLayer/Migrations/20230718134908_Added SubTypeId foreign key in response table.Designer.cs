@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuestaEnneagram.DbLayer;
 
@@ -11,9 +12,10 @@ using QuestaEnneagram.DbLayer;
 namespace QuestaEnneagram.DbLayer.Migrations
 {
     [DbContext(typeof(QuestaDbContext))]
-    partial class QuestaDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230718134908_Added SubTypeId foreign key in response table")]
+    partial class AddedSubTypeIdforeignkeyinresponsetable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
