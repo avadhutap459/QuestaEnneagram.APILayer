@@ -1,16 +1,11 @@
-﻿using QuestaEnneagram.ServiceLayer.Interface;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using QuestaEnneagram.DbLayer;
+
 
 namespace QuestaEnneagram.ServiceLayer.EF.Interface
 {
-    public interface IUnitofWork
+    public interface IUnitOfWork : IDisposable
     {
-        ICandidateRepo Candidaterepo { get; }
+        QuestaDbContext dbContext { get; }
 
-        Task CompleteAsync();
     }
 }

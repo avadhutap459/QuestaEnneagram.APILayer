@@ -1,24 +1,24 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using QuestaEnneagram.DbLayer.DBModel;
-using QuestaEnneagram.DbLayer.Model;
 using QuestaEnneagram.DbLayer.Script;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace QuestaEnneagram.DbLayer
 {
     public class QuestaDbContext : DbContext
     {
         public QuestaDbContext(DbContextOptions<QuestaDbContext> options) : base(options) { }
+
+        public QuestaDbContext()
+        {
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             ClsForeignKeyAdd.AddForeignKey(ref modelBuilder);
             modelBuilder.ApplyConfiguration(new AgeConfiguration());
-          //  modelBuilder.ApplyConfiguration(new ExperenceConfiguration());
+         //   modelBuilder.Entity<DbMasterDetailModel>().MapToStoredProcedures();
+            //  modelBuilder.ApplyConfiguration(new ExperenceConfiguration());
             base.OnModelCreating(modelBuilder);
         }
         public DbSet<DbAgeModel> Ages { get; set; }
@@ -50,5 +50,10 @@ namespace QuestaEnneagram.DbLayer
 
         public DbSet<DbTransactionQuestionResponseModel> TransactionQuestionResponseModels { get; set; }
         public DbSet<DbQuestionSubTypeModel> QuestionSubTypeModels { get; set; }
+        public DbSet<DbConfigModel> MstConfigs { get; set; }
+        public DbSet<DbMailTemplateModel> mstMailTemplates { get; set; }
+        public DbSet<DbRefreshTokenModel> dbRefreshTokenModels { get; set; }
+       // public DbSet<DbMasterDetailModel> USP_GetMasterDetails { get; set; }
+        //public virtual DbQuery<any> UserProfiles { get; set; }
     }
 }

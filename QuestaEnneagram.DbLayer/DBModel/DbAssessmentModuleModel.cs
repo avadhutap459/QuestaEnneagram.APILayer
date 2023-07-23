@@ -72,5 +72,6 @@ namespace QuestaEnneagram.DbLayer.DBModel
         public string? LastModifiedBy { get; set; }
 
         public bool? IsActive { get; set; }
+        public int ModuleOrderId { get; set; }
     }
 }

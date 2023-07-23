@@ -14,6 +14,5 @@ namespace QuestaEnneagram.DbLayer.DBModel
         [StringLength(100)]
         public string? ProfessionalName { get; set; }
         public bool IsActive { get; set; }
-        public ICollection<DbCandidateModel> Candidates { get; set; }
     }
 }

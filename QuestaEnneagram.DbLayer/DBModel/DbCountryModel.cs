@@ -14,6 +14,5 @@ namespace QuestaEnneagram.DbLayer.DBModel
         public string? CountryName { get; set; }
         public bool IsActive { get; set; }
         public ICollection<DbStateModel> states { get; set; }
-        public ICollection<DbCandidateModel> Candidates { get; set; }
     }
 }

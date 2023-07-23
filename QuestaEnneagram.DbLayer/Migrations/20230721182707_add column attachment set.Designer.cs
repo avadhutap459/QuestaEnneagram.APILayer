@@ -12,8 +12,8 @@ using QuestaEnneagram.DbLayer;
 namespace QuestaEnneagram.DbLayer.Migrations
 {
     [DbContext(typeof(QuestaDbContext))]
-    [Migration("20230718134908_Added SubTypeId foreign key in response table")]
-    partial class AddedSubTypeIdforeignkeyinresponsetable
+    [Migration("20230721182707_add column attachment set")]
+    partial class addcolumnattachmentset
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -201,6 +201,9 @@ namespace QuestaEnneagram.DbLayer.Migrations
                         .HasColumnType("nvarchar(100)");
 
                     b.Property<int>("ModuleId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ModuleOrderId")
                         .HasColumnType("int");
 
                     b.HasKey("SetToModuleId");
@@ -400,6 +403,37 @@ namespace QuestaEnneagram.DbLayer.Migrations
                     b.ToTable("mstCompany");
                 });
 
+            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbConfigModel", b =>
+                {
+                    b.Property<int>("ConfigId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ConfigId"), 1L, 1);
+
+                    b.Property<string>("ConfigName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ConfigValue")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ConfigId");
+
+                    b.ToTable("MstConfig");
+                });
+
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbCountryModel", b =>
                 {
                     b.Property<int>("CountryId")
@@ -488,7 +522,13 @@ namespace QuestaEnneagram.DbLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CMapHId"), 1L, 1);
 
+                    b.Property<int>("AssessmentId")
+                        .HasColumnType("int");
+
                     b.Property<int>("CompanyId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("CountOfLink")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAt")
@@ -498,10 +538,25 @@ namespace QuestaEnneagram.DbLayer.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<int?>("FinalMailId")
+                        .HasColumnType("int");
+
                     b.Property<int>("HrId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("InitialMailId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsBulkLinkGenerationReq")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsReportSentToCandidate")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsReportSentToHr")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("LastModifiedAt")
@@ -512,6 +567,8 @@ namespace QuestaEnneagram.DbLayer.Migrations
                         .HasColumnType("nvarchar(200)");
 
                     b.HasKey("CMapHId");
+
+                    b.HasIndex("AssessmentId");
 
                     b.HasIndex("CompanyId");
 
@@ -1125,6 +1182,11 @@ namespace QuestaEnneagram.DbLayer.Migrations
 
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbHrMapToCompanyModel", b =>
                 {
+                    b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbAssessmentModel", "dbAssessmentModel")
+                        .WithMany("dbHrMapToCompanyModels")
+                        .HasForeignKey("AssessmentId")
+                        .IsRequired();
+
                     b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbCompanyModel", "Company")
                         .WithMany("HrMapToCompanies")
                         .HasForeignKey("CompanyId")
@@ -1139,6 +1201,8 @@ namespace QuestaEnneagram.DbLayer.Migrations
                     b.Navigation("Company");
 
                     b.Navigation("HumanResource");
+
+                    b.Navigation("dbAssessmentModel");
                 });
 
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbHumanResourceModel", b =>
@@ -1314,6 +1378,8 @@ namespace QuestaEnneagram.DbLayer.Migrations
                     b.Navigation("AttachSetToModules");
 
                     b.Navigation("Candidates");
+
+                    b.Navigation("dbHrMapToCompanyModels");
                 });
 
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbAssessmentModuleModel", b =>

@@ -1,30 +1,37 @@
 ﻿using QuestaEnneagram.DbLayer;
 using QuestaEnneagram.ServiceLayer.EF.Interface;
-using QuestaEnneagram.ServiceLayer.Interface;
-using QuestaEnneagram.ServiceLayer.Service;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace QuestaEnneagram.ServiceLayer.EF.Service
 {
-    public class UnitofWorkRepo : IUnitofWork
+    public class UnitofWorkRepo : IUnitOfWork
     {
-        public ICandidateRepo Candidaterepo { get; private set; }
+        private readonly QuestaDbContext _dbContext;
 
-        private readonly QuestaDbContext QuestaDbContext;
-
-        public UnitofWorkRepo(QuestaDbContext QuestaDbContext)
+        public UnitofWorkRepo(QuestaDbContext dbContext)
         {
-            this.QuestaDbContext = QuestaDbContext;
-            Candidaterepo = new CandidateRepos(QuestaDbContext);
+            _dbContext = dbContext;
         }
 
-        public async Task CompleteAsync()
+
+        public QuestaDbContext dbContext
         {
-            await this.QuestaDbContext.SaveChangesAsync();
+            get { return _dbContext; }
+        }
+
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _dbContext.Dispose();
+            }
         }
     }
 }

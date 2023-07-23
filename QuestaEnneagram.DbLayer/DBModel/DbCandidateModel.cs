@@ -29,39 +29,30 @@ namespace QuestaEnneagram.DbLayer.DBModel
 
         //Foreign key of gender
         public int GenderId { get; set; }
-        public DbGenderModel Gender { get; set; }
 
         //Foreign key of Age
         public int AgeId { get; set; }
-        public DbAgeModel Age { get; set; }
 
         //Foreign key of State
         public int StateId { get; set; }
-        public DbStateModel State { get; set; }
 
         //Foreign key of Country
         public int CountryId { get; set; }
-        public DbCountryModel Country { get; set; }
 
         //Foreign key of Qualification
         public int QualificationId { get; set; }
-        public DbQualificationModel Qualification { get; set; }
 
         //Foreign key of Professional
         public int ProfessionalId { get; set; }
-        public DbProfessionalModel Professional { get; set; }
 
         //Foreign key of MaritalStatusId
         public int MaritalStatusId { get; set; }
-        public DbMaritalStatusModel MaritalStatus { get; set; }
 
         //Foreign key of EmployeeStatusId
         public int EmployeeStatusId { get; set; }
-        public DbEmployeeStatusModel EmployeeStatus { get; set; }
 
         //Foreign key of ExperienceId
         public int ExperienceId { get; set; }
-        public DbExperenceModel Experience { get; set; }
         public bool? IsConnectedViaMobile { get; set; }
         public bool? IsConnectedViaDesktop { get; set; }
         public bool? IsConnectedViaTab { get; set; }
@@ -74,15 +65,14 @@ namespace QuestaEnneagram.DbLayer.DBModel
         public int? MainType { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime LastModified { get; set; }
-        public ICollection<DbTxnIndustryModel> Industries { get; set; }
-
+        
         //Foreign key of Assessement
         public int AssessmentId { get; set; }
-        public DbAssessmentModel Assessment { get; set; }
 
         //Foreign key of TxnHrMapToCompany
         public int CMapHId { get; set; }
-        public DbHrMapToCompanyModel HrMapToCompanies { get; set; }
+
+        public ICollection<DbTxnIndustryModel> Industries { get; set; }
 
         public ICollection<DbCandidateTestDetailModel> CandidateTestDetails { get; set; }
 

@@ -14,6 +14,15 @@ namespace QuestaEnneagram.DbLayer.DBModel
         public int HrId { get; set; }
         public DbHumanResourceModel HumanResource { get; set; }
 
+        public int AssessmentId { get; set; }
+        public DbAssessmentModel dbAssessmentModel { get; set; }
+        public int? InitialMailId { get; set; }
+        public int? FinalMailId { get; set; }
+        public bool IsReportSentToCandidate { get; set; }
+        public bool IsReportSentToHr { get; set; }
+        public bool IsBulkLinkGenerationReq { get; set; }
+        public int? CountOfLink { get; set; }
+
         [StringLength(200)]
         public string? CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
@@ -23,6 +32,5 @@ namespace QuestaEnneagram.DbLayer.DBModel
         public DateTime LastModifiedAt { get; set; }
         public bool IsActive { get; set; }
 
-        public ICollection<DbCandidateModel> Candidates { get; set; }
     }
 }

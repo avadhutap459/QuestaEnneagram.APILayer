@@ -10,7 +10,7 @@ namespace QuestaEnneagram.DbLayer.Script
         {
             try
             {
-                modelBuilder.Entity<DbCandidateModel>().HasOne(x => x.State).WithMany(x => x.Candidates).HasForeignKey(x => x.StateId).OnDelete(DeleteBehavior.ClientSetNull);
+               
                 modelBuilder.Entity<DbHrMapToCompanyModel>().HasOne(x => x.HumanResource).WithMany(x => x.HrMapToCompanies).HasForeignKey(x => x.HrId).OnDelete(DeleteBehavior.ClientSetNull);
                 modelBuilder.Entity<DbCandidateTestDetailModel>().Property(x => x.TestId).UseIdentityColumn(seed: 10000, increment: 1);
                 modelBuilder.Entity<DbModuleWiseStatusModel>().HasOne(x => x.CandidateTestDetails).WithMany(x => x.ModuleWiseStatus).HasForeignKey(x => x.TestId).OnDelete(DeleteBehavior.Cascade);
@@ -29,7 +29,9 @@ namespace QuestaEnneagram.DbLayer.Script
                 modelBuilder.Entity<DbTransactionQuestionResponseModel>().HasOne(x => x.transactionQuestion).WithMany(x => x.transactionQuestionResponses).HasForeignKey(x => x.TxnQuestionId).OnDelete(DeleteBehavior.ClientSetNull);
                 modelBuilder.Entity<DbTransactionQuestionResponseModel>().HasOne(x => x.CandidateTestDetailModel).WithMany(x => x.transactionQuestionResponses).HasForeignKey(x => x.TestId).OnDelete(DeleteBehavior.ClientSetNull);
                 modelBuilder.Entity<DbQuestionResponseModel>().HasOne(x=>x.dbQuestionSubTypeModel).WithMany(x=>x.QuestionResponseModel).HasForeignKey(x=>x.SubTypeId).OnDelete(DeleteBehavior.ClientSetNull);
+                modelBuilder.Entity<DbHrMapToCompanyModel>().HasOne(x => x.dbAssessmentModel).WithMany(x => x.dbHrMapToCompanyModels).HasForeignKey(x => x.AssessmentId).OnDelete(DeleteBehavior.ClientSetNull);
 
+                modelBuilder.Entity<DbRefreshTokenModel>().HasOne(x => x.dbCandidateTestDetailModel).WithMany(x => x.dbRefreshTokenModels).HasForeignKey(x => x.TestId).OnDelete(DeleteBehavior.ClientSetNull);
             }
             catch (Exception ex)
             {

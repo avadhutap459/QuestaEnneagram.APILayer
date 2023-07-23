@@ -23,8 +23,8 @@ namespace QuestaEnneagram.DbLayer.DBModel
         public int? TotalQuestion { get; set; }
         public bool IsActive { get; set; }
 
-        public ICollection<DbCandidateModel> Candidates { get; set; }
         public ICollection<DbAttachSetToModuleModel> AttachSetToModules { get; set; }
+        public ICollection<DbHrMapToCompanyModel> dbHrMapToCompanyModels { get; set; }
 
     }
 }

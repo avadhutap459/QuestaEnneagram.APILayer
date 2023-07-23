@@ -20,5 +20,6 @@ namespace QuestaEnneagram.DbLayer.DBModel
         public ICollection<DbModuleWiseStatusModel> ModuleWiseStatus { get; set; }
         public ICollection<DbTransactionQuestionModel> transactionQuestions { get; set; }
         public ICollection<DbTransactionQuestionResponseModel> transactionQuestionResponses { get; set; }
+        public ICollection<DbRefreshTokenModel> dbRefreshTokenModels { get; set; }
     }
 }

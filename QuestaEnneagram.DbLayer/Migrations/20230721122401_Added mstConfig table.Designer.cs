@@ -12,8 +12,8 @@ using QuestaEnneagram.DbLayer;
 namespace QuestaEnneagram.DbLayer.Migrations
 {
     [DbContext(typeof(QuestaDbContext))]
-    [Migration("20230718125229_Added sub type table")]
-    partial class Addedsubtypetable
+    [Migration("20230721122401_Added mstConfig table")]
+    partial class AddedmstConfigtable
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -400,6 +400,37 @@ namespace QuestaEnneagram.DbLayer.Migrations
                     b.ToTable("mstCompany");
                 });
 
+            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbConfigModel", b =>
+                {
+                    b.Property<int>("ConfigId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ConfigId"), 1L, 1);
+
+                    b.Property<string>("ConfigName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("ConfigValue")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ConfigId");
+
+                    b.ToTable("MstConfig");
+                });
+
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbCountryModel", b =>
                 {
                     b.Property<int>("CountryId")
@@ -498,10 +529,22 @@ namespace QuestaEnneagram.DbLayer.Migrations
                         .HasMaxLength(200)
                         .HasColumnType("nvarchar(200)");
 
+                    b.Property<int?>("FinalMailId")
+                        .HasColumnType("int");
+
                     b.Property<int>("HrId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("InitialMailId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsReportSentToCandidate")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsReportSentToHr")
                         .HasColumnType("bit");
 
                     b.Property<DateTime>("LastModifiedAt")
@@ -794,12 +837,17 @@ namespace QuestaEnneagram.DbLayer.Migrations
                     b.Property<string>("ResponseText")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("SubTypeId")
+                        .HasColumnType("int");
+
                     b.Property<int>("weight")
                         .HasColumnType("int");
 
                     b.HasKey("ResponseId");
 
                     b.HasIndex("QuestionId");
+
+                    b.HasIndex("SubTypeId");
 
                     b.ToTable("mstQuestionResponse");
                 });
@@ -1201,7 +1249,13 @@ namespace QuestaEnneagram.DbLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbQuestionSubTypeModel", "dbQuestionSubTypeModel")
+                        .WithMany("QuestionResponseModel")
+                        .HasForeignKey("SubTypeId");
+
                     b.Navigation("QuestionModel");
+
+                    b.Navigation("dbQuestionSubTypeModel");
                 });
 
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbStateModel", b =>
@@ -1410,6 +1464,11 @@ namespace QuestaEnneagram.DbLayer.Migrations
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbQuestionResponseModel", b =>
                 {
                     b.Navigation("transactionQuestionResponses");
+                });
+
+            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbQuestionSubTypeModel", b =>
+                {
+                    b.Navigation("QuestionResponseModel");
                 });
 
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbQuestionTypeModel", b =>

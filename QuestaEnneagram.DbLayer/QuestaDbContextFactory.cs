@@ -1,11 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+
 
 namespace QuestaEnneagram.DbLayer
 {
@@ -13,7 +9,7 @@ namespace QuestaEnneagram.DbLayer
     {
         public static string appDirectory = System.Environment.CurrentDirectory;
         public static string env = string.Empty;
-        
+
         public QuestaDbContext CreateDbContext(string[] args)
         {
             string Path = Directory.GetCurrentDirectory().Substring(0, Directory.GetCurrentDirectory().LastIndexOf('\\')) + '\\' + "QuestaEnneagram.APILayer";

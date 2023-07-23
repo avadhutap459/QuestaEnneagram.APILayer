@@ -17,6 +17,5 @@ namespace QuestaEnneagram.DbLayer.DBModel
         //Foreign key for country
         public int CountryId { get; set; }
         public DbCountryModel Country { get; set; }
-        public ICollection<DbCandidateModel> Candidates { get; set; }
     }
 }
