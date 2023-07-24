@@ -196,20 +196,33 @@ namespace QuestaEnneagram.ServiceLayer.Service
                 await Task.Run(() => {
 
                     DataTable DTCandidateModel = CreateDataTable(CandidateData);
-                    DTCandidateModel.Columns.Remove("DateOfBirth");
+                    //DTCandidateModel.Columns.Remove("DateOfBirth");
                     DTCandidateModel.Columns.Remove("CreatedAt");
                     DTCandidateModel.Columns.Remove("LastModified");
                     DTCandidateModel.Columns.Remove("Industry");
-                    DTCandidateModel.Columns.Remove("IndustryTxt");
+                     DTCandidateModel.Columns.Remove("IndustryTxt");
+
+                    System.Data.DataColumn newColumn = new System.Data.DataColumn("Industry", typeof(System.String));
+                    newColumn.DefaultValue = string.Join(",", CandidateData.Industry); 
+                    DTCandidateModel.Columns.Add(newColumn);
+
                     command.Connection.Open();
                     command.CommandType = CommandType.StoredProcedure;
                     command.CommandText = "[dbo].[uspSaveCandidateData]";
 
                     // command.Parameters.Add(new SqlParameter("@CandidateBMTbl", SqlDbType.Structured) { Value = DTCandidateModel,TypeName= "dbo.CandidateBMTbl" });
                     command.Parameters.Add(new SqlParameter("@CandidateBMTbl", DTCandidateModel));
-                    command.ExecuteNonQuery();
+                    //using (SqlDataAdapter adapter = new SqlDataAdapter())
+                    //{
+                    //    adapter.SelectCommand = (SqlCommand)command;
+
+                    //    DataSet dataSet = new DataSet();
+                    //    adapter.Fill(dataSet);
+                    //}
+                        command.ExecuteNonQuery();
 
                     Message = "Data saved successfully";
+                    IsSuccess = true;
                 });
             }
             catch(Exception ex)
