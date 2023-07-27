@@ -40,14 +40,14 @@ namespace QuestaEnneagram.ServiceLayer.Service
                     adapter.Fill(dataSet);
                     objmastermodel.lstCountries = dataSet.Tables[0].AsEnumerable().Select(r => new Model.MasterModel
                     {
-                        Id = r.Field<int>("CountryId"),
-                        Name = r.Field<string>("CountryName"),
+                        Id = r.Field<int>("Id"),
+                        Name = r.Field<string>("Name"),
                         IsActive = r.Field<bool>("IsActive")
                     }).ToList();
                     objmastermodel.lstQualifications = dataSet.Tables[1].AsEnumerable().Select(r => new Model.MasterModel
                     {
-                        Id = r.Field<int>("QualificationId"),
-                        Name = r.Field<string>("QualificationName"),
+                        Id = r.Field<int>("Id"),
+                        Name = r.Field<string>("Name"),
                         IsActive = r.Field<bool>("IsActive")
                     }).ToList();
                     objmastermodel.lstProfessionals = dataSet.Tables[2].AsEnumerable().Select(r => new Model.MasterModel

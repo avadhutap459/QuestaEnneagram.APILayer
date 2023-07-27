@@ -57,7 +57,7 @@ namespace QuestaEnneagram.APILayer.Controllers
 
                 if(!ObjCandidateModel.IsActive.Value)
                 {
-                    return Ok(new { IsSuccess = false, Message = "Link is not activated" });
+                    return NotFound(new { IsSuccess = false, Message = "Link is not activated" });
                 }
 
                 ObjCandidateModel.Industry = _mastersvc.GetIndustryDataByCandidateId(ObjCandidateModel.CandidateId);

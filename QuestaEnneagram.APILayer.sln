@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestaEnneagram.APILayer", "QuestaEnneagram.APILayer\QuestaEnneagram.APILayer.csproj", "{366658A6-F16F-437C-90D3-BAF39CADDF1A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestaEnneagram.APILayer", "QuestaEnneagram.APILayer\QuestaEnneagram.APILayer.csproj", "{366658A6-F16F-437C-90D3-BAF39CADDF1A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestaEnneagram.ServiceLayer", "QuestaEnneagram.ServiceLayer\QuestaEnneagram.ServiceLayer.csproj", "{13568010-E3A5-42C3-8852-906E8ED44904}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestaEnneagram.ServiceLayer", "QuestaEnneagram.ServiceLayer\QuestaEnneagram.ServiceLayer.csproj", "{13568010-E3A5-42C3-8852-906E8ED44904}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestaEnneagram.DbLayer", "QuestaEnneagram.DbLayer\QuestaEnneagram.DbLayer.csproj", "{8DB3F689-EFC1-4CD1-8162-0C19EFB63DF6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QuestaEnneagram.DbLayer", "QuestaEnneagram.DbLayer\QuestaEnneagram.DbLayer.csproj", "{8DB3F689-EFC1-4CD1-8162-0C19EFB63DF6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestaEnneagram.TestFreamwork", "QuestaEnneagram.TestFreamwork\QuestaEnneagram.TestFreamwork.csproj", "{960864DA-387B-4292-856F-7E02AF0928E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{8DB3F689-EFC1-4CD1-8162-0C19EFB63DF6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DB3F689-EFC1-4CD1-8162-0C19EFB63DF6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DB3F689-EFC1-4CD1-8162-0C19EFB63DF6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{960864DA-387B-4292-856F-7E02AF0928E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{960864DA-387B-4292-856F-7E02AF0928E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{960864DA-387B-4292-856F-7E02AF0928E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{960864DA-387B-4292-856F-7E02AF0928E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
