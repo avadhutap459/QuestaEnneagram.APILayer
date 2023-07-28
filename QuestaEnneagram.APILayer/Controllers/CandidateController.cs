@@ -25,6 +25,12 @@ namespace QuestaEnneagram.APILayer.Controllers
             _mailsvc = MailService;
         }
 
+        [HttpGet]
+        public IActionResult GetPrint()
+        {
+            return Ok("Hello World");
+        }
+
         [HttpGet("GetMasterDetails")]
         public IActionResult GetMasterDetails()
         {

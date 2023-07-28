@@ -12,8 +12,8 @@ using QuestaEnneagram.DbLayer;
 namespace QuestaEnneagram.DbLayer.Migrations
 {
     [DbContext(typeof(QuestaDbContext))]
-    [Migration("20230723101803_added refresh token")]
-    partial class addedrefreshtoken
+    [Migration("20230728091859_Initial setup for production")]
+    partial class Initialsetupforproduction
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -262,9 +262,6 @@ namespace QuestaEnneagram.DbLayer.Migrations
                     b.Property<int>("GenderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("HrMapToCompaniesCMapHId")
-                        .HasColumnType("int");
-
                     b.Property<bool?>("IsActive")
                         .HasColumnType("bit");
 
@@ -314,28 +311,6 @@ namespace QuestaEnneagram.DbLayer.Migrations
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("CandidateId");
-
-                    b.HasIndex("AgeId");
-
-                    b.HasIndex("AssessmentId");
-
-                    b.HasIndex("CountryId");
-
-                    b.HasIndex("EmployeeStatusId");
-
-                    b.HasIndex("ExperienceId");
-
-                    b.HasIndex("GenderId");
-
-                    b.HasIndex("HrMapToCompaniesCMapHId");
-
-                    b.HasIndex("MaritalStatusId");
-
-                    b.HasIndex("ProfessionalId");
-
-                    b.HasIndex("QualificationId");
-
-                    b.HasIndex("StateId");
 
                     b.ToTable("txnCandidate");
                 });
@@ -1165,96 +1140,6 @@ namespace QuestaEnneagram.DbLayer.Migrations
                     b.Navigation("AssessmentModules");
                 });
 
-            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbCandidateModel", b =>
-                {
-                    b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbAgeModel", "Age")
-                        .WithMany("Candidates")
-                        .HasForeignKey("AgeId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbAssessmentModel", "Assessment")
-                        .WithMany("Candidates")
-                        .HasForeignKey("AssessmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbCountryModel", "Country")
-                        .WithMany("Candidates")
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbEmployeeStatusModel", "EmployeeStatus")
-                        .WithMany("Candidates")
-                        .HasForeignKey("EmployeeStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbExperenceModel", "Experience")
-                        .WithMany("Candidates")
-                        .HasForeignKey("ExperienceId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbGenderModel", "Gender")
-                        .WithMany("Candidates")
-                        .HasForeignKey("GenderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbHrMapToCompanyModel", "HrMapToCompanies")
-                        .WithMany("Candidates")
-                        .HasForeignKey("HrMapToCompaniesCMapHId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbMaritalStatusModel", "MaritalStatus")
-                        .WithMany("Candidates")
-                        .HasForeignKey("MaritalStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbProfessionalModel", "Professional")
-                        .WithMany("Candidates")
-                        .HasForeignKey("ProfessionalId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbQualificationModel", "Qualification")
-                        .WithMany("Candidates")
-                        .HasForeignKey("QualificationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbStateModel", "State")
-                        .WithMany("Candidates")
-                        .HasForeignKey("StateId")
-                        .IsRequired();
-
-                    b.Navigation("Age");
-
-                    b.Navigation("Assessment");
-
-                    b.Navigation("Country");
-
-                    b.Navigation("EmployeeStatus");
-
-                    b.Navigation("Experience");
-
-                    b.Navigation("Gender");
-
-                    b.Navigation("HrMapToCompanies");
-
-                    b.Navigation("MaritalStatus");
-
-                    b.Navigation("Professional");
-
-                    b.Navigation("Qualification");
-
-                    b.Navigation("State");
-                });
-
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbCandidateTestDetailModel", b =>
                 {
                     b.HasOne("QuestaEnneagram.DbLayer.DBModel.DbCandidateModel", "Candidate")
@@ -1464,16 +1349,9 @@ namespace QuestaEnneagram.DbLayer.Migrations
                     b.Navigation("Industry");
                 });
 
-            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbAgeModel", b =>
-                {
-                    b.Navigation("Candidates");
-                });
-
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbAssessmentModel", b =>
                 {
                     b.Navigation("AttachSetToModules");
-
-                    b.Navigation("Candidates");
 
                     b.Navigation("dbHrMapToCompanyModels");
                 });
@@ -1518,29 +1396,7 @@ namespace QuestaEnneagram.DbLayer.Migrations
 
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbCountryModel", b =>
                 {
-                    b.Navigation("Candidates");
-
                     b.Navigation("states");
-                });
-
-            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbEmployeeStatusModel", b =>
-                {
-                    b.Navigation("Candidates");
-                });
-
-            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbExperenceModel", b =>
-                {
-                    b.Navigation("Candidates");
-                });
-
-            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbGenderModel", b =>
-                {
-                    b.Navigation("Candidates");
-                });
-
-            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbHrMapToCompanyModel", b =>
-                {
-                    b.Navigation("Candidates");
                 });
 
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbHumanResourceModel", b =>
@@ -1551,21 +1407,6 @@ namespace QuestaEnneagram.DbLayer.Migrations
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbIndustryModel", b =>
                 {
                     b.Navigation("Industry");
-                });
-
-            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbMaritalStatusModel", b =>
-                {
-                    b.Navigation("Candidates");
-                });
-
-            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbProfessionalModel", b =>
-                {
-                    b.Navigation("Candidates");
-                });
-
-            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbQualificationModel", b =>
-                {
-                    b.Navigation("Candidates");
                 });
 
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbQuestionModel", b =>
@@ -1595,11 +1436,6 @@ namespace QuestaEnneagram.DbLayer.Migrations
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbQuestionTypeModel", b =>
                 {
                     b.Navigation("QuestionModels");
-                });
-
-            modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbStateModel", b =>
-                {
-                    b.Navigation("Candidates");
                 });
 
             modelBuilder.Entity("QuestaEnneagram.DbLayer.DBModel.DbTransactionQuestionModel", b =>
