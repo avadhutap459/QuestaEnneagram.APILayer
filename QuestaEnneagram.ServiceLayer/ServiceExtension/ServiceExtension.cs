@@ -29,6 +29,7 @@ namespace QuestaEnneagram.ServiceLayer.ServiceExtension
             services.AddScoped<IMaster, Mastersvc>();
             services.AddScoped<ICandidate, Candidatesvc>();
             services.AddScoped<IMail, Mailsvc>();
+            services.AddScoped<ILogger, Logger>();
             return services;
         }
     }

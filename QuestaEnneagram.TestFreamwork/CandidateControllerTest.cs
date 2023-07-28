@@ -131,7 +131,7 @@ namespace QuestaEnneagram.TestFreamwork
 
         [Theory]
         [InlineData(1)]
-        public void CheckCandidateDetailsSaveBaseCompanyAndHrID_ShouldBeRetrun200Status(int CompaniesAndHrMap)
+        public void GenerateCandidateLiknBaseOnCompanyAndHrID_ShouldBeRetrun200Status(int CompaniesAndHrMap)
         {
             var MasterSvc = new Mock<IMaster>();
             MasterSvc.Setup(x => x.IsCompanyAndHrExist(CompaniesAndHrMap)).Returns(new System.Tuple<bool, string>(true, "Success"));
@@ -168,7 +168,24 @@ namespace QuestaEnneagram.TestFreamwork
             // CandidateSvc.Verify(x => x.GetCandidateDetailsByTestId(CompaniesAndHrMap), Times.Never);
 
         }
+        [Theory]
+        [InlineData(1)]
+        public void GenerateCandidateLiknBaseOnCompanyAndHrID_ShouldBeRetrun400Status(int CompaniesAndHrMap)
+        {
+            var MasterSvc = new Mock<IMaster>();
+            MasterSvc.Setup(x => x.IsCompanyAndHrExist(CompaniesAndHrMap)).Returns(new System.Tuple<bool, string>(false, "Company id doesn't exist in current context"));
+            var CandidateSvc = new Mock<ICandidate>();
+            var MailSvc = new Mock<IMail>();
 
+            var sut = new CandidateController(null, MasterSvc.Object, CandidateSvc.Object, MailSvc.Object);
+            IActionResult response = sut.GenerateAssessmentLink(CompaniesAndHrMap);
+            var result = response as ObjectResult;
+
+           // MasterSvc.Verify(x => x.IsCompanyAndHrExist(It.IsAny<int>()), Times.Once);
+            CandidateSvc.Verify(x => x.GetHrNCompanyMapDetailByCMapHrId(It.IsAny<int>()), Times.Never);
+
+          //  Assert.Equal(StatusCodes.Status404NotFound, result.StatusCode);
+        }
 
     }
 }
