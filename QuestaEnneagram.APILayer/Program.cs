@@ -1,6 +1,9 @@
 global using QuestaEnneagram.ServiceLayer.Interface;
 global using QuestaEnneagram.ServiceLayer.Model;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption;
+using Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ConfigurationModel;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using QuestaEnneagram.APILayer.Global._Exception;
@@ -11,18 +14,22 @@ using System.Text;
 
 
 
-string Path = Directory.GetCurrentDirectory().Substring(0, Directory.GetCurrentDirectory().LastIndexOf('\\')) + '\\' + "QuestaEnneagram.APILayer";
+//string Path = Directory.GetCurrentDirectory().Substring(0, Directory.GetCurrentDirectory().LastIndexOf('\\')) + '\\' + "QuestaEnneagram.APILayer";
 
-var config = new ConfigurationBuilder().SetBasePath(Path).AddJsonFile("appsettings.json").Build();
+//var config = new ConfigurationBuilder().SetBasePath(Path).AddJsonFile("appsettings.json").Build();
 
-string env = config.GetSection("Env").Value;
+//string env = config.GetSection("Env").Value;
 
-IConfigurationRoot configuration = new ConfigurationBuilder()
-    .SetBasePath(Path)
-    .AddJsonFile($"appsettings.{env}.json")
-    .Build();
+//IConfigurationRoot configuration = new ConfigurationBuilder()
+//    .SetBasePath(Path)
+//    .AddJsonFile($"appsettings.{env}.json")
+//    .Build();
+
+string env = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true).AddJsonFile($"appsettings.{env}.json", true, true);
 
 // Add services to the container.
 
@@ -30,8 +37,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-
 // Adding Authentication
 builder.Services.AddAuthentication(options =>
 {
@@ -50,16 +55,30 @@ builder.Services.AddAuthentication(options =>
         ValidateIssuerSigningKey = true,
         ClockSkew = TimeSpan.Zero,
 
-        ValidAudience = configuration["JWT:ValidAudience"],
-        ValidIssuer = configuration["JWT:ValidIssuer"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWT:Secret"]))
+        ValidAudience = builder.Configuration["JWT:ValidAudience"],
+        ValidIssuer = builder.Configuration["JWT:ValidIssuer"],
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Secret"]))
     };
 });
-builder.Services.AddDIServices(builder.Configuration);
-var app = builder.Build();
+//builder.Services.AddControllers().AddXmlSerializerFormatters();
+//builder.Services.AddControllers().AddNewtonsoftJson();
 
+builder.Services.AddDataProtection().UseCryptographicAlgorithms(
+    new AuthenticatedEncryptorConfiguration
+    {
+        EncryptionAlgorithm = EncryptionAlgorithm.AES_256_CBC,
+        ValidationAlgorithm = ValidationAlgorithm.HMACSHA256
+    });
+
+builder.Services.AddDIServices(builder.Configuration);
+
+builder.Services.AddAWSLambdaHosting(LambdaEventSource.HttpApi);
+
+
+var app = builder.Build();
+app.MapGet("/", () => "Hello World");
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsProduction())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
@@ -78,3 +97,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
+

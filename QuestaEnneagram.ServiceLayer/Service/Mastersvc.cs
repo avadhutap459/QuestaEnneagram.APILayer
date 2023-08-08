@@ -1,4 +1,5 @@
-﻿using Microsoft.Data.SqlClient;
+﻿//using Dapper;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using QuestaEnneagram.ServiceLayer.EF.Interface;
 using QuestaEnneagram.ServiceLayer.Interface;
@@ -138,7 +139,23 @@ namespace QuestaEnneagram.ServiceLayer.Service
                 throw;
             }
         }
-
+        //public async Task<IList<StateBM>> GetStateDetailByCountryIdDapper(int CountryId)
+        //{
+        //    try
+        //    {
+        //        List<StateBM> state = new List<StateBM>();
+        //        using (var cn = new Microsoft.Data.SqlClient.SqlConnection("Data Source=questadb.cirpbpm7tkaa.ap-south-1.rds.amazonaws.com;initial catalog=QuestaEnneagram;user id=questaLive;password=Welcome2020;MultipleActiveResultSets=True"))
+        //        {
+        //            cn.Open();
+        //            state = cn.Query<StateBM>("select StateId As Id,StateName As Name,IsActive As IsActive,CountryId As CountryId from [dbo].[mstState] where CountryId = 1").ToList();
+        //        }
+        //        return state;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw;
+        //    }
+        //}
 
         public Tuple<bool,string> IsCompanyAndHrExist(int CompanyNHrId)
         {

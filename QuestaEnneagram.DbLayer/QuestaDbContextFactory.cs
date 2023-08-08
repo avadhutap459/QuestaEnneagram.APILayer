@@ -24,7 +24,7 @@ namespace QuestaEnneagram.DbLayer
                 .Build();
 
             var dbContextOptionsBuilder = new DbContextOptionsBuilder<QuestaDbContext>();
-            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            var connectionString = "Data Source=questadb.cirpbpm7tkaa.ap-south-1.rds.amazonaws.com;initial catalog=QuestaEnneagram;user id=questaLive;password=Welcome2020;MultipleActiveResultSets=True";//configuration.GetConnectionString("DefaultConnection");
             dbContextOptionsBuilder
                 .UseSqlServer(connectionString);
 

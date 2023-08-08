@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿//using Dapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
@@ -25,18 +26,21 @@ namespace QuestaEnneagram.APILayer.Controllers
             _mailsvc = MailService;
         }
 
-        [HttpGet]
-        public IActionResult GetPrint()
+        [HttpGet("GetPrint/{CountryId}")]
+        public IActionResult GetPrint(int CountryId)
         {
-            return Ok("Hello World");
+           // IList<StateBM> StateList = _mastersvc.GetStateDetailByCountryIdDapper(CountryId).Result;
+
+          //  return Ok(new { StateList });
+             return Ok(new { Name = "Hello Questa" });
         }
 
         [HttpGet("GetMasterDetails")]
-        public IActionResult GetMasterDetails()
+        public MasterBM GetMasterDetails()
         {
-            var _ = this._mastersvc.GetMasterDetails();
+            MasterBM _ = this._mastersvc.GetMasterDetails();
 
-            return Ok();
+            return _;
         }
 
         [HttpGet("GetCandidateDetailsByTestId")]

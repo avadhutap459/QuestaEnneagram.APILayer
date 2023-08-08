@@ -1,5 +1,7 @@
 ﻿
 
+using System.ComponentModel;
+
 namespace QuestaEnneagram.ServiceLayer.Model
 {
     public class MasterBM
@@ -19,7 +21,9 @@ namespace QuestaEnneagram.ServiceLayer.Model
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public bool IsActive { get; set; }
+
+        [DefaultValue(false)]
+        public bool? IsActive { get; set; }
     }
 
     public class StateBM : MasterModel

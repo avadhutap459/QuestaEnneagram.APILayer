@@ -8,6 +8,7 @@ namespace QuestaEnneagram.ServiceLayer.Interface
         MasterBM GetMasterDetails();
         string[] GetIndustryDataByCandidateId(int CandidateId);
         Task<IList<StateBM>> GetStateDetailByCountryId(int CountryId);
+        //Task<IList<StateBM>> GetStateDetailByCountryIdDapper(int CountryId);
         Tuple<bool, string> IsCompanyAndHrExist(int CompanyNHrId);
         string GetConfigurationValueById(string ConfigName);
         bool IsAssessmentExist(int AssessmentId);
