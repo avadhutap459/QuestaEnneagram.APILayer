@@ -26,7 +26,7 @@ jobs:
     - name: zip
       uses: montudor/action-zip@v0.1.0
       with:
-          args: zip -qq -r ./bundle.zip ./
+          args: zip -qq -r ./QuestaEnneagram.APILayer.zip ./
 
     - name: default deploy
       uses: appleboy/lambda-action@master
@@ -35,4 +35,4 @@ jobs:
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: ap-south-1
           function_name: QuestaEnneagramAPILayer
-          zip_file: bundle.zip
+          zip_file: QuestaEnneagram.APILayer.zip
