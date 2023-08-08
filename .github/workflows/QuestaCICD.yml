@@ -23,10 +23,17 @@ jobs:
     - name: Publish
       run: dotnet publish --no-self-contained --runtime linux-x64 --configuration Release --output ./artifact/publish  ./QuestaEnneagram.APILayer/QuestaEnneagram.APILayer.csproj
 
-    - name: zip
-      uses: montudor/action-zip@v0.1.0
+    - name: Install zip
+      uses: montudor/action-zip@v1
+      
+    - name: Zip output
+      run: zip -qq -r ../QuestaEnneagram.APILayer.zip .
+      working-directory: artifact/publish
+      
+    - uses: actions/upload-artifact@v3
       with:
-          args: zip -qq -r ./QuestaEnneagram.APILayer.zip ./
+        name: QuestaEnneagram.APILayer
+        path: ./artifact
 
     - name: default deploy
       uses: appleboy/lambda-action@master
@@ -35,4 +42,4 @@ jobs:
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: ap-south-1
           function_name: QuestaEnneagramAPILayer
-          zip_file: QuestaEnneagram.APILayer.zip
+          zip_file: ./artifact/QuestaEnneagram.APILayer.zip
