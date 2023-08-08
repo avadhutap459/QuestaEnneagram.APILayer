@@ -23,12 +23,10 @@ jobs:
     - name: Publish
       run: dotnet publish --no-self-contained --runtime linux-x64 --configuration Release --output ./artifact/publish  ./QuestaEnneagram.APILayer/QuestaEnneagram.APILayer.csproj
 
-    - name: Install zip
-      uses: montudor/action-zip@v1
-
-    - name: Zip output
-      run: zip -qq -r ../lambda.zip .
-      working-directory: artifact/publish
+    - name: zip
+      uses: montudor/action-zip@v0.1.0
+      with:
+          args: zip -qq -r ./bundle.zip ./
 
     - name: default deploy
       uses: appleboy/lambda-action@master
@@ -37,4 +35,4 @@ jobs:
           aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws_region: ap-south-1
           function_name: QuestaEnneagramAPILayer
-          zip_file: lambda.zip
+          zip_file: bundle.zip
